@@ -1,92 +1,40 @@
+DROP TABLE IF EXISTS emp;
 
-drop table if exists student;
-create table student (
-  sno integer,
-	sname varchar(10),
-	age integer
+CREATE TABLE emp (
+  empno decimal(4,0) NOT NULL,
+  ename varchar(10) default NULL,
+  job varchar(9) default NULL,
+  mgr decimal(4,0) default NULL,
+  hiredate date default NULL,
+  sal decimal(7,2) default NULL,
+  comm decimal(7,2) default NULL,
+  deptno decimal(2,0) default NULL
 );
 
-drop table if exists courses;
-create table courses (
-	cno varchar(5),
-	title varchar(10),
-	credits integer
+DROP TABLE IF EXISTS dept;
+
+CREATE TABLE dept (
+  deptno decimal(2,0) default NULL,
+  dname varchar(14) default NULL,
+  loc varchar(13) default NULL
 );
 
-drop table if exists professor;
-create table professor (
-	lname varchar(10),
-	debt varchar(10),
-	salary integer,
-	age integer
-);
+INSERT INTO emp VALUES ('7369','SMITH','CLERK','7902','1980-12-17','800.00',NULL,'20');
+INSERT INTO emp VALUES ('7499','ALLEN','SALESMAN','7698','1981-02-20','1600.00','300.00','30');
+INSERT INTO emp VALUES ('7521','WARD','SALESMAN','7698','1981-02-22','1250.00','500.00','30');
+INSERT INTO emp VALUES ('7566','JONES','MANAGER','7839','1981-04-02','2975.00',NULL,'20');
+INSERT INTO emp VALUES ('7654','MARTIN','SALESMAN','7698','1981-09-28','1250.00','1400.00','30');
+INSERT INTO emp VALUES ('7698','BLAKE','MANAGER','7839','1981-05-01','2850.00',NULL,'30');
+INSERT INTO emp VALUES ('7782','CLARK','MANAGER','7839','1981-06-09','2450.00',NULL,'10');
+INSERT INTO emp VALUES ('7788','SCOTT','ANALYST','7566','1982-12-09','3000.00',NULL,'20');
+INSERT INTO emp VALUES ('7839','KING','PRESIDENT',NULL,'1981-11-17','5000.00',NULL,'10');
+INSERT INTO emp VALUES ('7844','TURNER','SALESMAN','7698','1981-09-08','1500.00','0.00','30');
+INSERT INTO emp VALUES ('7876','ADAMS','CLERK','7788','1983-01-12','1100.00',NULL,'20');
+INSERT INTO emp VALUES ('7900','JAMES','CLERK','7698','1981-12-03','950.00',NULL,'30');
+INSERT INTO emp VALUES ('7902','FORD','ANALYST','7566','1981-12-03','3000.00',NULL,'20');
+INSERT INTO emp VALUES ('7934','MILLER','CLERK','7782','1982-01-23','1300.00',NULL,'10');
 
-drop table if exists take;
-create table take (
-	sno integer,
-	cno varchar(5)
-);
-
-drop table if exists teach;
-create table teach (
-	lname varchar(10),
-	cno varchar(5)
-);
-
-insert into student values (1, 'AARON', 20);
-insert into student values (2, 'CHUCK', 21);
-insert into student values (3, 'DOUG', 20);
-insert into student values (4, 'MAGGIE', 19);
-insert into student values (5, 'STEVE', 22);
-insert into student values (6, 'JING', 18);
-insert into student values (7, 'BRIAN', 21);
-insert into student values (8, 'KAY', 20);
-insert into student values (9, 'GILLIAN', 20);
-insert into student values (10, 'CHAD', 21);
-
-insert into courses values ('CS112', 'PHYSICS', 4);
-insert into courses values ('CS113', 'CALCULUS', 4);
-insert into courses values ('CS114', 'HISTORY', 4);
-
-insert into professor values ('CHOI', 'SCIENCE', 400, 45);
-insert into professor values ('GUNN', 'HISTORY', 300, 60);
-insert into professor values ('MAYER', 'MATH', 400, 55);
-insert into professor values ('POMEL', 'SCIENCE', 500, 65);
-insert into professor values ('FEUER', 'MATH', 400, 40);
-
-insert into take values (1, 'CS112');
-insert into take values (1, 'CS113');
-insert into take values (1, 'CS114');
-insert into take values (2, 'CS112');
-insert into take values (3, 'CS112');
-insert into take values (3, 'CS114');
-insert into take values (4, 'CS112');
-insert into take values (4, 'CS113');
-insert into take values (5, 'CS113');
-insert into take values (6, 'CS113');
-insert into take values (6, 'CS114');
-
-insert into teach values ('CHOI', 'CS112');
-insert into teach values ('CHOI', 'CS112');
-insert into teach values ('CHOI', 'CS112');
-insert into teach values ('POMEL', 'CS113');
-insert into teach values ('MAYER', 'CS112');
-insert into teach values ('MAYER', 'CS114');
-
--- pp. 557-559: Negation: "Students who do not take CS112"
-select *
-  from student
- where sno not in (select sno
-                    from take
-                  where cno = 'CS112');
-
--- pp. 566-567: "At most": "Find the students who take at most two courses; students who do not take any courses should be excluded."
-select distinct s.*
-  from student s, take t
- where s.sno = t.sno
-   and s.sno not in ( select t1.sno
-                       from take t1, take t2, take t3
-                      where t1.sno = t2.sno
-                        and t2.sno = t3.sno
-                        and t1.cno < t2.cno and
-                        t2.cno < t3.cno );
+INSERT INTO dept VALUES ('10','ACCOUNTING','NEW YORK');
+INSERT INTO dept VALUES ('20','RESEARCH','DALLAS');
+INSERT INTO dept VALUES ('30','SALES','CHICAGO');
+INSERT INTO dept VALUES ('40','OPERATIONS','BOSTON');
